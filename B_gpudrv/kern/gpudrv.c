@@ -52,7 +52,7 @@ static int enqueue_submit(const char *data, size_t len) {
 }
 
 /* helper to push result into result queue (kernel side expects user-space daemon to call write to push result) */
-static int enqueue_result(const char *data, size_t len) {
+__maybe_unused static int enqueue_result(const char *data, size_t len) {
     struct buf_entry *e;
     e = kmalloc(sizeof(*e), GFP_KERNEL);
     if (!e) return -ENOMEM;
@@ -178,7 +178,7 @@ static int __init gpudrv_init(void) {
     gpudrv_cdev.owner = THIS_MODULE;
     ret = cdev_add(&gpudrv_cdev, dev_number, 1);
     if (ret) { unregister_chrdev_region(dev_number, 1); pr_err("cdev_add failed: %d\n", ret); return ret; }
-    gpudrv_class = class_create(THIS_MODULE, CLASS_NAME);
+    gpudrv_class = class_create(CLASS_NAME);
     if (IS_ERR(gpudrv_class)) { cdev_del(&gpudrv_cdev); unregister_chrdev_region(dev_number, 1); pr_err("class_create failed\n"); return PTR_ERR(gpudrv_class); }
     gpudrv_device = device_create(gpudrv_class, NULL, dev_number, NULL, DEVICE_NAME);
     if (IS_ERR(gpudrv_device)) { class_destroy(gpudrv_class); cdev_del(&gpudrv_cdev); unregister_chrdev_region(dev_number, 1); pr_err("device_create failed\n"); return PTR_ERR(gpudrv_device); }
