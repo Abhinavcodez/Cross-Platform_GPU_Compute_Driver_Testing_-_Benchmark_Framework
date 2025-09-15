@@ -1,19 +1,23 @@
 KERNELS = kernels/vecadd.cl
-LIB = libgpufw.so
+LIB     = libgpufw.so
+
+CC      = gcc
+CFLAGS  = -Wall -fPIC -I./src -DCL_TARGET_OPENCL_VERSION=200
+LDFLAGS = -lOpenCL -ldl
 
 all: $(LIB) test_vecadd copy_kernels
 
-$(LIB): libgpufw.c libgpufw.h
-	$(CC) -fPIC -shared -o $@ libgpufw.c -lOpenCL -ldl
+$(LIB): src/libgpufw.c src/libgpufw.h
+	$(CC) $(CFLAGS) -shared -o $(LIB) src/libgpufw.c $(LDFLAGS)
 
-test_vecadd: test_vecadd.c
-	$(CC) -o $@ test_vecadd.c -L. -lgpufw -lOpenCL -ldl
+test_vecadd: test_vecadd.c src/libgpufw.h $(LIB)
+	$(CC) $(CFLAGS) -o test_vecadd test_vecadd.c -L. -lgpufw $(LDFLAGS)
 
+# Copy kernels
 copy_kernels:
-	mkdir -p kernels
-	cp $(KERNELS) .
+	@echo "kernels already in place, nothing to copy."
 
-install:
+install: $(LIB)
 	sudo cp $(LIB) /usr/local/lib/
 	sudo ldconfig
 	sudo mkdir -p /usr/local/share/gpufw/kernels

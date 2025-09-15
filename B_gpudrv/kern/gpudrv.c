@@ -1,15 +1,15 @@
 // gpudrv.c
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-#include <linux/module.h>
-#include <linux/fs.h>
-#include <linux/cdev.h>
-#include <linux/device.h>
-#include <linux/slab.h>
-#include <linux/uaccess.h>
-#include <linux/mutex.h>
-#include <linux/wait.h>
-#include <linux/list.h>
-#include <linux/sched.h>
+#include<linux/module.h>
+#include<linux/fs.h>
+#include<linux/cdev.h>
+#include<linux/device.h>
+#include<linux/slab.h>
+#include<linux/uaccess.h>
+#include<linux/mutex.h>
+#include<linux/wait.h>
+#include<linux/list.h>
+#include<linux/sched.h>
 #include "gpudrv_ioctl.h"
 
 #define DEVICE_NAME "gpudrv"

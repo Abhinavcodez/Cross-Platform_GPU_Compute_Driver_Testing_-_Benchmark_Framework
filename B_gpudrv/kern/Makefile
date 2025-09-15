@@ -1,10 +1,13 @@
-obj-m += gpudrv.o
+CC = gcc
+CFLAGS = -Wall -O2
 
-KDIR ?= /lib/modules/$(shell uname -r)/build
-PWD := $(shell pwd)
+all: gpudrv_daemon gpudrv_client
 
-all:
-	$(MAKE) -C $(KDIR) M=$(PWD) modules
+gpudrv_daemon: daemon.c gpudrv_ioctl.h
+	$(CC) $(CFLAGS) -o $@ daemon.c
+
+gpudrv_client: client.c gpudrv_ioctl.h
+	$(CC) $(CFLAGS) -o $@ client.c
 
 clean:
-	$(MAKE) -C $(KDIR) M=$(PWD) clean
+	rm -f gpudrv_daemon gpudrv_client
