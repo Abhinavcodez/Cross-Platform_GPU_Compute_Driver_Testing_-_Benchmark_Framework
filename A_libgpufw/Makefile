@@ -1,29 +1,23 @@
-CC = gcc
-CFLAGS = -Wall -O2 -fPIC -DCL_TARGET_OPENCL_VERSION=200
-LDFLAGS = -lOpenCL
+KERNELS = kernels/vecadd.cl
+LIB = libgpufw.so
 
-# source files
-LIBSRC = gpufw_opencl.c
-LIBOBJ = $(LIBSRC:.c=.o)
-LIBNAME = libgpufw.so
+all: $(LIB) test_vecadd copy_kernels
 
-TESTSRC = test_vecadd.c
-TESTOBJ = $(TESTSRC:.c=.o)
-TESTBIN = test_vecadd
+$(LIB): libgpufw.c libgpufw.h
+	$(CC) -fPIC -shared -o $@ libgpufw.c -lOpenCL -ldl
 
-all: $(LIBNAME) $(TESTBIN)
+test_vecadd: test_vecadd.c
+	$(CC) -o $@ test_vecadd.c -L. -lgpufw -lOpenCL -ldl
 
-# build shared library
-$(LIBNAME): $(LIBOBJ)
-	$(CC) -shared -o $@ $(LIBOBJ) $(LDFLAGS)
+copy_kernels:
+	mkdir -p kernels
+	cp $(KERNELS) .
 
-# build test binary
-$(TESTBIN): $(TESTOBJ) $(LIBNAME)
-	$(CC) -o $@ $(TESTOBJ) -L. -lgpufw $(LDFLAGS)
-
-# generic compile rule
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+install:
+	sudo cp $(LIB) /usr/local/lib/
+	sudo ldconfig
+	sudo mkdir -p /usr/local/share/gpufw/kernels
+	sudo cp $(KERNELS) /usr/local/share/gpufw/kernels/
 
 clean:
-	rm -f $(LIBOBJ) $(TESTOBJ) $(LIBNAME) $(TESTBIN)
+	rm -f $(LIB) test_vecadd *.o

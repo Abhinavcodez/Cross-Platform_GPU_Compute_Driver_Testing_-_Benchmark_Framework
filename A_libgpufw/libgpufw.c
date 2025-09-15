@@ -1,6 +1,6 @@
 // gpufw.c
 #define _POSIX_C_SOURCE 200809L
-#include "gpufw_opencl.h"
+#include "libgpufw.h"
 #include <CL/cl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +14,7 @@ static cl_program program = NULL;
 static cl_kernel vecadd_kernel = NULL;
 
 static char *read_file(const char *path) {
-    FILE *f = fopen(path, "rb");
+    FILE *f = fopen("/home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/A_libgpufw/vecadd.cl", "r");
     if (!f) return NULL;
     if (fseek(f, 0, SEEK_END) != 0) { fclose(f); return NULL; }
     long sz = ftell(f);

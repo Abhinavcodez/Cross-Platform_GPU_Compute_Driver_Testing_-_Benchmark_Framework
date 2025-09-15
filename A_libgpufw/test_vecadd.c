@@ -1,5 +1,5 @@
 // test_vecadd.c
-#include "gpufw_opencl.h"
+#include "libgpufw.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
