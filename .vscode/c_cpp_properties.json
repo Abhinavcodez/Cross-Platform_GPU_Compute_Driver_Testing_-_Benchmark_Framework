@@ -1,49 +1,50 @@
 {
-  "configurations": [
-    {
-      "name": "Linux-Kernel",
-      "includePath": [
-        "${workspaceFolder}/",
-        "/usr/include",
-        "/usr/local/include",
-        "/usr/src/linux-headers-6.8.0-79-generic/include/",
-        "/usr/src/linux-headers-6.8.0-79-generic/include/uapi",
-        "/usr/src/linux-headers-6.8.0-79-generic/include/generated",
-        "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include",
-        "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include/uapi",
-        "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include/generated",
-        "/usr/src/linux-headers-6.8.0-79-generic/include/linux/"
-      ],
-      "defines": [
-        "KERNEL",
-        "MODULE"
-      ],
-      "compilerPath": "/usr/bin/gcc",
-      "cStandard": "c11",
-      "cppStandard": "c++17",
-      "intelliSenseMode": "linux-gcc-x64"
-    },
-    {
-      "name": "CUDA-UserApp",
-      "includePath": [
-        "${workspaceFolder}/",
-        "/usr/include",
-        "/usr/local/include",
-        "/usr/local/cuda/include"
-      ],
-      "defines": [
-        "CUDA"
-      ],
-      "compilerPath": "/usr/local/cuda/bin/nvcc",
-      "cStandard": "c17",
-      "cppStandard": "c++17",
-      "intelliSenseMode": "linux-gcc-x64",
-      "compilerArgs": [
-        "-arch=sm_86",       
-        "-O3",
-        "--use_fast_math"
-      ]
-    }
-  ],
-  "version": 4
+    "configurations": [
+        {
+            "name": "Linux-Kernel",
+            "includePath": [
+                "${workspaceFolder}/",
+                "/usr/include",
+                "/usr/local/include",
+                "/usr/src/linux-headers-6.8.0-79-generic/include/",
+                "/usr/src/linux-headers-6.8.0-79-generic/include/uapi",
+                "/usr/src/linux-headers-6.8.0-79-generic/include/generated",
+                "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include",
+                "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include/uapi",
+                "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include/generated",
+                "/usr/src/linux-headers-6.8.0-79-generic/include/linux/"
+            ],
+            "defines": [
+                "KERNEL",
+                "MODULE"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        },
+        {
+            "name": "CUDA-UserApp",
+            "includePath": [
+                "${workspaceFolder}/",
+                "/usr/include",
+                "/usr/local/include",
+                "/usr/local/cuda/include",
+                "/usr/src/linux-headers-6.8.0-79-generic/include/linux/**"
+            ],
+            "defines": [
+                "CUDA"
+            ],
+            "compilerPath": "/usr/local/cuda/bin/nvcc",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "compilerArgs": [
+                "-arch=sm_86",
+                "-O3",
+                "--use_fast_math"
+            ]
+        }
+    ],
+    "version": 4
 }
