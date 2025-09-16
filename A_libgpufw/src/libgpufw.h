@@ -22,7 +22,7 @@ int gpufw_write_buffer(gpufw_ctx *ctx, cl_mem buf, const void *host_ptr, size_t 
 int gpufw_read_buffer(gpufw_ctx *ctx, cl_mem buf, void *host_ptr, size_t size);
 
 // Kernel argument & launch
-int gpufw_set_kernel_arg(gpufw_ctx *ctx, cl_kernel kernel, int index, size_t size, const void *value);
+int gpufw_set_kernel_arg(gpufw_ctx *ctx, cl_kernel kernel, cl_uint index, size_t size, const void *value);
 int gpufw_launch_kernel(gpufw_ctx *ctx, cl_kernel kernel, size_t global_work_size, size_t local_work_size);
 
 // Cleanup
