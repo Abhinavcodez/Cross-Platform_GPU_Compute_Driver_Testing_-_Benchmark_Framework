@@ -1030,6 +1030,7 @@ deps_/home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/B_gpudrv/kern/gp
     $(wildcard include/config/HAVE_MOD_ARCH_SPECIFIC) \
     $(wildcard include/config/MODULES_USE_ELF_REL) \
     $(wildcard include/config/MODULES_USE_ELF_RELA) \
+  include/generated/uapi/linux/version.h \
   include/linux/cdev.h \
   include/linux/device.h \
     $(wildcard include/config/HAS_IOMEM) \
@@ -1073,7 +1074,7 @@ deps_/home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/B_gpudrv/kern/gp
   include/linux/device/driver.h \
   arch/x86/include/asm/device.h \
   include/linux/pm_wakeup.h \
-  /home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/B_gpudrv/kern/gpudrv_ioctl.h \
+  /home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/B_gpudrv/kern/../include/gpudrv_ioctl.h \
 
 /home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/B_gpudrv/kern/gpudrv.o: $(deps_/home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/B_gpudrv/kern/gpudrv.o)
 

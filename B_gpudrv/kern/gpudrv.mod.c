@@ -36,33 +36,16 @@ MODULE_INFO(retpoline, "Y");
 static const struct modversion_info ____versions[]
 __used __section("__versions") = {
 	{ 0x2e3443fd, "device_create" },
-	{ 0x122c3a7e, "_printk" },
-	{ 0x6091b333, "unregister_chrdev_region" },
-	{ 0xb1b9cfc9, "cdev_del" },
-	{ 0x75646747, "class_destroy" },
-	{ 0x13c49cc2, "_copy_from_user" },
-	{ 0x4c03a563, "random_kmalloc_seed" },
-	{ 0x1bff00c8, "kmalloc_caches" },
-	{ 0xd0c3484c, "kmalloc_trace" },
-	{ 0xeb233a45, "__kmalloc" },
-	{ 0x88db9f48, "__check_object_size" },
-	{ 0x4dfa8d4b, "mutex_lock" },
-	{ 0x3213f038, "mutex_unlock" },
-	{ 0xe2964344, "__wake_up" },
-	{ 0x37a0cba, "kfree" },
-	{ 0xf0fdf6cb, "__stack_chk_fail" },
-	{ 0x6b10bee1, "_copy_to_user" },
-	{ 0xe2c17b5d, "__SCT__might_resched" },
-	{ 0xfe487975, "init_wait_entry" },
-	{ 0x1000e51, "schedule" },
-	{ 0x8c26d495, "prepare_to_wait_event" },
-	{ 0x92540fbf, "finish_wait" },
-	{ 0x19edaabb, "device_destroy" },
-	{ 0xbdfb6dbb, "__fentry__" },
-	{ 0x5b8239ca, "__x86_return_thunk" },
-	{ 0xe3ec2f2b, "alloc_chrdev_region" },
 	{ 0x22d6de43, "cdev_init" },
 	{ 0xec957a9, "cdev_add" },
+	{ 0x19edaabb, "device_destroy" },
+	{ 0x75646747, "class_destroy" },
+	{ 0x6091b333, "unregister_chrdev_region" },
+	{ 0xb1b9cfc9, "cdev_del" },
+	{ 0xbdfb6dbb, "__fentry__" },
+	{ 0x122c3a7e, "_printk" },
+	{ 0x5b8239ca, "__x86_return_thunk" },
+	{ 0xe3ec2f2b, "alloc_chrdev_region" },
 	{ 0x6ca9b86a, "class_create" },
 	{ 0xe2fd41e5, "module_layout" },
 };
@@ -70,4 +53,4 @@ __used __section("__versions") = {
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "4E6AA628785204AEBC09028");
+MODULE_INFO(srcversion, "98C36FEAE505F8B8CC7FD16");
