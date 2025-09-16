@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "list.h": "c",
-        "queue": "c"
+        "queue": "c",
+        "stdint.h": "c"
     }
 }

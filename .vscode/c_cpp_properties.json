@@ -12,11 +12,16 @@
                 "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include",
                 "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include/uapi",
                 "/usr/src/linux-headers-6.8.0-79-generic/arch/x86/include/generated",
-                "/usr/src/linux-headers-6.8.0-79-generic/include/linux/"
+                "/usr/src/linux-headers-6.8.0-79-generic/include/linux/",
+                "/home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/D_windows/gpudrv_ioctl.h",
+                "/home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/D_windows/gpudrv_win_client.c",
+                "/home/chilgoja/Desktop/Cross_Platform_GPU_Driver_Benchmark/B_gpudrv/kern/gpudrv.c"
             ],
             "defines": [
-                "KERNEL",
-                "MODULE"
+                "__KERNEL__",
+                "MODULE",
+                "__linux__"
+
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
