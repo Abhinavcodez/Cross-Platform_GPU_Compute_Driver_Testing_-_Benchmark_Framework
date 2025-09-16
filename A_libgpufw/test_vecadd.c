@@ -1,80 +1,55 @@
+#include "src/libgpufw.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <CL/cl.h>
-#include "src/libgpufw.h"
 
 int main(int argc, char **argv) {
-    if (argc < 3) {
-        fprintf(stderr, "Usage: %s <kernel_file> <vector_size>\n", argv[0]);
-        return 1;
+    if(argc != 3) {
+        printf("Usage: %s <kernel_file> <vector_size>\n", argv[0]);
+        return -1;
     }
 
-    const char *kernel_path = argv[1];
+    const char *kernel_file = argv[1];
     int n = atoi(argv[2]);
 
     gpufw_ctx ctx;
-    if (gpufw_init_from_file(&ctx, kernel_path, "vecadd", 0) != 0) {
-        fprintf(stderr, "gpufw_init failed\n");
-        return 1;
+    if(gpufw_init_from_file(&ctx, kernel_file, 0) != 0) {
+        printf("GPU init failed\n");
+        return -1;
     }
 
-    // Allocate host memory
-    float *A = (float *)malloc(sizeof(float) * n);
-    float *B = (float *)malloc(sizeof(float) * n);
-    float *C = (float *)malloc(sizeof(float) * n);
+    size_t bytes = n * sizeof(float);
+    float *a = (float*)malloc(bytes);
+    float *b = (float*)malloc(bytes);
+    float *c = (float*)malloc(bytes);
 
-    for (int i = 0; i < n; i++) {
-        A[i] = i * 1.0f;
-        B[i] = (n - i) * 0.5f;
-    }
+    for(int i = 0; i < n; i++) { a[i] = i; b[i] = n - i; }
 
-    // Create buffers
-    cl_int err;
-    cl_mem bufA = clCreateBuffer(ctx.context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-                                 sizeof(float) * n, A, &err);
-    cl_mem bufB = clCreateBuffer(ctx.context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
-                                 sizeof(float) * n, B, &err);
-    cl_mem bufC = clCreateBuffer(ctx.context, CL_MEM_WRITE_ONLY,
-                                 sizeof(float) * n, NULL, &err);
+    cl_kernel kernel = clCreateKernel(ctx.program, "vecadd", NULL);
+    cl_mem buf_a = gpufw_alloc_buffer(&ctx, bytes, CL_MEM_READ_ONLY);
+    cl_mem buf_b = gpufw_alloc_buffer(&ctx, bytes, CL_MEM_READ_ONLY);
+    cl_mem buf_c = gpufw_alloc_buffer(&ctx, bytes, CL_MEM_WRITE_ONLY);
 
-    // Create kernel
-    cl_kernel kernel = clCreateKernel(ctx.program, "vecadd", &err);
+    gpufw_write_buffer(&ctx, buf_a, a, bytes);
+    gpufw_write_buffer(&ctx, buf_b, b, bytes);
 
-    // Set kernel args
-    clSetKernelArg(kernel, 0, sizeof(cl_mem), &bufA);
-    clSetKernelArg(kernel, 1, sizeof(cl_mem), &bufB);
-    clSetKernelArg(kernel, 2, sizeof(cl_mem), &bufC);
-    clSetKernelArg(kernel, 3, sizeof(unsigned int), &n);
+    gpufw_set_kernel_arg(&ctx, kernel, 0, sizeof(cl_mem), &buf_a);
+    gpufw_set_kernel_arg(&ctx, kernel, 1, sizeof(cl_mem), &buf_b);
+    gpufw_set_kernel_arg(&ctx, kernel, 2, sizeof(cl_mem), &buf_c);
+    gpufw_set_kernel_arg(&ctx, kernel, 3, sizeof(int), &n);
 
-    // Execute kernel
-    size_t global_work_size = n;
-    err = clEnqueueNDRangeKernel(ctx.queue, kernel, 1, NULL,
-                                 &global_work_size, NULL, 0, NULL, NULL);
-    if (err != CL_SUCCESS) {
-        fprintf(stderr, "Error launching kernel (%d)\n", err);
-        return 1;
-    }
+    gpufw_launch_kernel(&ctx, kernel, n, 64);
 
-    // Read result back
-    clEnqueueReadBuffer(ctx.queue, bufC, CL_TRUE, 0,
-                        sizeof(float) * n, C, 0, NULL, NULL);
+    gpufw_read_buffer(&ctx, buf_c, c, bytes);
 
-    // Verify (check first 10 results)
-    printf("Sample results:\n");
-    for (int i = 0; i < 10; i++) {
-        printf("C[%d] = %f (expected %f)\n", i, C[i], A[i] + B[i]);
-    }
+    for(int i = 0; i < 10; i++)
+        printf("%d + %d = %f\n", i, n-i, c[i]);
 
-    // Cleanup
-    clReleaseMemObject(bufA);
-    clReleaseMemObject(bufB);
-    clReleaseMemObject(bufC);
+    clReleaseMemObject(buf_a);
+    clReleaseMemObject(buf_b);
+    clReleaseMemObject(buf_c);
     clReleaseKernel(kernel);
-
-    free(A);
-    free(B);
-    free(C);
-
     gpufw_cleanup(&ctx);
+
+    free(a); free(b); free(c);
     return 0;
 }
